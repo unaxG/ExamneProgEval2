@@ -1,5 +1,12 @@
 package examenEvalDos.controlador;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -115,9 +122,9 @@ public class Menu {
 			break;
 		case 5: sqlLibro();
 			break;
-		case 6: // TODO A responder por el alumno
+		case 6: escribirLibros(libros);
 			break;
-		case 7: // TODO A responder por el alumno
+		case 7: txtLibros();
 			break;
 		case 8: // TODO A responder por el alumno
 			break;
@@ -268,11 +275,68 @@ public void sqlLibro() {
 			Connection  conexion = DriverManager.getConnection(URL, USER, PASS);
 			Statement sacaLibros = conexion.createStatement();
 			String sql = "insert into t_libros VALUES ('"+libros[cont].getTitulo()+"','"+libros[cont].getAutor()+"','"+libros[cont].getEditorial()+"','"+libros[cont].getFechaPublicacion()+"')";
-			
+			sacaLibros.executeQuery(sql);
 			
 				} catch(SQLException e) {
 				e.printStackTrace();
 	}
 			}
 }
-}
+		
+		public void escribirLibros(Libro[]libros) {
+			
+			
+			File file = new File("txt.txt");
+			
+			BufferedWriter fichero;
+			
+				try {
+					fichero = new BufferedWriter(new FileWriter(file));
+				for(int i =0;i<libros.length;i++)
+				{
+					fichero.write(libros[i].toString());
+					fichero.write("----------------------------------");
+				}
+				fichero.close();
+				
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			
+		}
+		
+		public void txtLibros(){
+			
+			
+			
+				
+				
+				File file = new File("txt.txt");
+				BufferedReader fichero;
+				try {
+					fichero = new BufferedReader(new FileReader(file));
+				
+				String linea;
+				
+				while((linea = fichero.readLine())!=null)
+				{
+					System.out.println(linea);
+						
+				}
+				
+				fichero.close();
+				
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			
+			}
+			
+			
+		}
+
